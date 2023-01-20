@@ -6,8 +6,8 @@ type User struct {
 	// lee el struct y lo convierte en una tabla
 	gorm.Model
 
-	FirstName string `gorm:"not null" json:"first_name"`
-	LastName  string `gorm:"not null" json:"last_name"`
-	Email     string `gorm:"not null;uniqueIndex" json:"email"`
+	FirstName string `json:"first_name" gorm:"not null"`
+	LastName  string `json:"last_name" gorm:"not null" `
+	Email     string `json:"email" gorm:"not null;uniqueIndex"`
 	Tasks     []Task `json:"tasks"`
 }
