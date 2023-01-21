@@ -1,13 +1,38 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"errors"
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
-	// lee el struct y lo convierte en una tabla
-	gorm.Model
-
-	FirstName string `json:"first_name" gorm:"not null"`
-	LastName  string `json:"last_name" gorm:"not null" `
-	Email     string `json:"email" gorm:"not null;uniqueIndex"`
-	Tasks     []Task `json:"tasks"`
+	ID        string    `gorm:"type:uuid;primary_key;default:gen_random_uuid()" json:"-"`
+	FirstName string    `gorm:"not null" json:"-" `
+	LastName  string    `gorm:"not null" json:"last_name" `
+	Email     string    `gorm:"not null;uniqueIndex" json:"email" `
+	Tasks     []Task    `json:"tasks"`
+	CreatedAt time.Time `gorm:"default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt time.Time `gorm:"auto_preupdate" json:"updated_at,omitempty"`
 }
+
+// Hooks
+func (u *User) BeforeCreate(tx *gorm.DB) (err error) {
+
+	if u.FirstName == "Gerardo" {
+		return errors.New("You Name is too cool")
+	}
+	return
+}
+
+// Marshal
+// func (u *User) MarshalJSON() ([]byte, error) {
+
+// 	type Alias User
+// 	return json.Marshal(&struct {
+// 		*Alias
+// 	}{
+// 		Alias: (*Alias)(u),
+// 	})
+// }

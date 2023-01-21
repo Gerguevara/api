@@ -28,5 +28,11 @@ func main() {
 	router.HandleFunc("/users", handlers.PostUserHandler).Methods("POST")
 	router.HandleFunc("/users/{id}", handlers.DeleteUserHandler).Methods("DELETE")
 	router.HandleFunc("/users", handlers.GetUsersHandler).Methods("GET")
+
+	// tasks routes
+	router.HandleFunc("/tasks", handlers.GetTasksHandler).Methods("GET")
+	router.HandleFunc("/tasks/{id}", handlers.GetTaskHandler).Methods("GET")
+	router.HandleFunc("/tasks", handlers.CreateTaskHandler).Methods("POST")
+
 	http.ListenAndServe(":8080", router)
 }
